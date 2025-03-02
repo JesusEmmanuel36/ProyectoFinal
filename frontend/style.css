@@ -42,13 +42,13 @@ body{
  
 
 .TitleHolder .LogoHolder img{
-    width: 88px;
-    height: 56px;
+    width: 84px;
+    height: 52px;
 }
 
 .TitleHolder .CarritoHolder img{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
 }
 
 
@@ -64,7 +64,7 @@ body{
     text-align: center;
     display: flex;
     flex-direction: column;
-    background-color: rgb(160, 160, 160);
+    background-color: #E6E6E6;
     width: 100%;
     position: relative;
     height: 30px;
@@ -86,4 +86,77 @@ body{
     animation-duration: 5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+}
+
+.Playeras{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.Playeras .Holder3playeras{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.Playeras .Holder3playeras .HolderPlayera{
+    background-color: rgb(255, 255, 255);
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Playeras .Holder3playeras img{
+    width: 100%;
+    height: 92%;
+}
+ 
+  
+
+  
+
+.Playeras .HolderInfo{
+    padding-right: 10px;
+    gap: 10px;
+    background-color: #E6E6E6;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    height: 40px;
+}
+
+.Playeras .HolderInfo .Nombre{
+    padding-left: 10px;
+    justify-content: center;
+    text-align: left;
+    width: 70%;
+     
+}
+
+.Playeras .HolderInfo .Precio{
+    text-align: right;
+    width: 20%;
+  
+}
+
+.Playeras .HolderInfo img{
+    width: 10%; 
+    height: 10%;
+}
+ 
+
+
+
+.Playeras .Holder3playeras .HolderPlayera .HolderInfo img{
+    width: 25px;
+    height: 25px;
 }

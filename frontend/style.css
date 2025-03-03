@@ -19,7 +19,7 @@ body{
     display: flex;
     flex-direction: row;
     height: 80px;
-  
+    align-items: center;
  }
 
 .TitleHolder .LogoHolder{
@@ -32,11 +32,16 @@ body{
  }
 
 .TitleHolder .CarritoHolder {
+    border: none;  
+    outline: none;  
+    box-shadow: none;  
+    cursor: pointer;
+    
+    background-color: rgb(255, 255, 255);
     width: 5%;
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
 }
  
@@ -46,11 +51,26 @@ body{
     height: 52px;
 }
 
+
+
 .TitleHolder .CarritoHolder img{
-    width: 30px;
-    height: 30px;
+    background-color: rgb(255, 255, 255);
+    justify-self: center;
+    align-self: center;
+    width: 50px;
+    height: 50px;
+    position: relative;
 }
 
+.TitleHolder .CarritoHolder p{
+    font-size: 11px;
+    margin-top: 17px;
+    margin-left: 19px;
+    margin-bottom: 1px;
+    position: absolute;
+    align-self: center;
+    justify-self: center;
+}
 
 @keyframes scrolll {
     to{
@@ -89,14 +109,17 @@ body{
 }
 
 .Playeras{
+    background-color: rgb(255, 255, 255);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
+ 
 }
 
 .Playeras .Holder3playeras{
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -110,6 +133,32 @@ body{
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.Playeras .Holder3playeras .HolderPlayera .divTamaño{
+    margin-left: 40%;
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    position: absolute;
+
+    border: none;  
+    outline: none;  
+    box-shadow: none;  
+    cursor: pointer;
+}
+
+.Playeras .Holder3playeras .HolderPlayera .BotonS, .Playeras .Holder3playeras .HolderPlayera .BotonM, .Playeras .Holder3playeras .HolderPlayera .BotonL, .Playeras .Holder3playeras .HolderPlayera .BotonXL{
+    border: none;  
+    outline: none;  
+    box-shadow: none;  
+    cursor: pointer;
+    width: 25%;
+    height: 40px;
+
+    font-size: 16px;
+ 
 }
 
 .Playeras .Holder3playeras img{
@@ -117,10 +166,6 @@ body{
     height: 92%;
 }
  
-  
-
-  
-
 .Playeras .HolderInfo{
     padding-right: 10px;
     gap: 10px;
@@ -148,15 +193,189 @@ body{
   
 }
 
-.Playeras .HolderInfo img{
-    width: 10%; 
-    height: 10%;
-}
  
 
+.Playeras .HolderInfo .BotonBolsita{
+    border: none;  
+    outline: none;  
+    box-shadow: none;  
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20px; 
+    height: 20px;
+}
+ 
+.Playeras .HolderInfo .BotonBolsita img{
+    background-color: #E6E6E6;
+    width: 10px;
+    height: 10px;
+}
 
 
 .Playeras .Holder3playeras .HolderPlayera .HolderInfo img{
     width: 25px;
     height: 25px;
 }
+
+@keyframes Aparecer {
+    from {
+        right: -340px;  /* Fuera de la pantalla */
+    }
+    to {
+        right: 10px;   /* Posición final */
+    }
+}
+
+@keyframes Desvanecer {
+    from {
+        bottom: 10px;   
+    }
+    to {
+        bottom: -340px;    
+    }
+}
+
+.ErrorHolder {
+    position: fixed;  /* Siempre visible en la pantalla */
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.ErrorHolder .FrameError{
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 10px;
+    z-index: 1000;    /* Asegura que esté por encima de otros elementos */
+    height: 50px;
+    width: 330px;
+    background-color: crimson;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    animation: Aparecer 0.2s, Desvanecer 0.2s  1s forwards   
+}
+
+.ErrorHolder .FrameAgregado{
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    border-radius: 10px;
+    z-index: 1000;    /* Asegura que esté por encima de otros elementos */
+    height: 50px;
+    width: 330px;
+    background-color: #61C990;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    animation: Aparecer 0.2s, Desvanecer 0.2s  1s forwards   
+}
+
+ 
+.FrameError img{
+    width: 50px;
+    height: 100%;
+} 
+ 
+.FrameAgregado img{
+    width: 50px;
+    height: 100%;
+} 
+ 
+
+.FrameError h3{
+    color: white;
+    font-size: 18px;
+}
+
+.FrameAgregado h3{
+    color: white;
+    font-size: 18px;
+}
+
+
+@media(max-width:1250px){
+    .Playeras h3{
+        font-size: 100px;
+    }
+}
+
+@media(max-width:1620px){
+    .Playeras .Holder3playeras .HolderPlayera .divTamaño{
+        margin-top: 5.4vh;
+        margin-left: 47%;
+        display: flex;
+        flex-direction: row;
+        width: 53%;
+        position: absolute;
+    
+        border: none;  
+        outline: none;  
+        box-shadow: none;  
+        cursor: pointer;
+    }
+
+    .Playeras .Holder3playeras .HolderPlayera .BotonS, .Playeras .Holder3playeras .HolderPlayera .BotonM, .Playeras .Holder3playeras .HolderPlayera .BotonL, .Playeras .Holder3playeras .HolderPlayera .BotonXL{
+        border: none;  
+        outline: none;  
+        box-shadow: none;  
+        cursor: pointer;
+        width: 25%;
+        height: 25px;
+    
+        font-size: 16px;
+    }    
+}
+  
+@media(max-width:800px){
+    .Playeras .Holder3playeras .HolderPlayera .divTamaño{
+        margin-top: 5.4vh;
+        margin-left: 45%;
+        display: flex;
+        flex-direction: row;
+        width: 55%;
+        position: absolute;
+    
+        border: none;  
+        outline: none;  
+        box-shadow: none;  
+        cursor: pointer;
+    }
+
+
+    .Playeras .Holder3playeras .HolderPlayera .BotonS, .Playeras .Holder3playeras .HolderPlayera .BotonM, .Playeras .Holder3playeras .HolderPlayera .BotonL, .Playeras .Holder3playeras .HolderPlayera .BotonXL{
+        border: none;  
+        outline: none;  
+        box-shadow: none;  
+        cursor: pointer;
+        width: 25%;
+        height: 25px;
+    
+        font-size: 16px;
+     
+    }    
+
+    
+ 
+
+    .Playeras .Holder3playeras .HolderPlayera{
+        width: 50%;
+
+        
+    }    
+
+    .TitleHolder .CarritoHolder {
+        padding-right: 30px;
+    }
+     
+}
+  

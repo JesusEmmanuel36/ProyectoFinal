@@ -48,11 +48,13 @@ function añadirPlayera(nombre, talla, cantidad, precio, imagenPlayera) {
     precioElem.textContent = `${precio}`;
   
     // Crear el contenedor de la imagen de cerrar
-    const holderCerrar = document.createElement("div");
+    const holderCerrar = document.createElement("button");
     holderCerrar.classList.add("HolderCerrar");
+    holderCerrar.id = "HolderCerrar"
   
     // Crear la imagen de cerrar
     const imgCerrar = document.createElement("img");
+    imgCerrar.id = "ImgCerrar"
     imgCerrar.src = "circuloCerrar.png";
     imgCerrar.alt = "Eliminar";
   
@@ -71,22 +73,48 @@ function añadirPlayera(nombre, talla, cantidad, precio, imagenPlayera) {
   
     // Agregar el contenedor al carrito
     holderCarrito.appendChild(holderProducto);
-    console.log("d")
+    
+    return holderProducto
   }
 
-  function cargarCarrito() {
-    const carrito = JSON.parse(localStorage.getItem("Carrito")) || [];
-  
-    for (let i = 0; i < carrito.length; i++) {
-      cantidadPlayeras +=1
-      const producto = carrito[i]
-      console.log(producto.nombre)
-      añadirPlayera(producto.nombre, producto.talla, producto.cantidad, producto.precio, producto.imagen);
+  function cargarCarrito() {  
+    const carrito = JSON.parse(localStorage.getItem("Carrito"));  
+    console.log("CARRITO ACTUAL:")
+    console.log(carrito)
+    let cantidadPlayeras = 0; // Asegúrate de inicializar la variable  
 
-      let descripcion = document.getElementById("DescCarrito")
-      descripcion.textContent = "Tienes " + cantidadPlayeras + " producto(s) en el carrito"
-    }
-  }
+    for (let i = 0; i < carrito.length; i++) {  
+        cantidadPlayeras += 1;  
+        const producto = carrito[i];  
+        console.log(producto.nombre);  
+        const holderPlayera = añadirPlayera(producto.nombre, producto.talla, producto.cantidad, producto.precio, producto.imagen);  
+
+        let descripcion = document.getElementById("DescCarrito");  
+        descripcion.textContent = "Tienes " + cantidadPlayeras + " producto(s) en el carrito";  
+
+        const PlayeraHolder = document.getElementById("HolderCarrito")
+        const botonEliminar = holderPlayera.querySelector("#HolderCerrar");  
+        botonEliminar.addEventListener("mousedown", function() {  
+            cantidadPlayeras -=1
+            carrito[i] = undefined;  // Marcamos el producto como undefined  
+            PlayeraHolder.removeChild(holderPlayera)
+            descripcion.textContent = "Tienes " + cantidadPlayeras + " producto(s) en el carrito"; 
+            const carritoActualizado = carrito.filter(item => item !== undefined);  
+
+             
+
+            localStorage.setItem("Carrito", JSON.stringify(carritoActualizado))
+            
+            console.log(carritoActualizado)
+            
+            //localStorage.setItem("Carrito", JSON.stringify(carritoActualizado)); // Guardamos el carrito actualizado 
+
+            //console.log(JSON.parse(localStorage.getItem("Carrito"))); // Verifica el carrito actualizado  
+
+            // También puedes actualizar la interfaz de usuario aquí si es necesario  
+        });  
+    }  
+}  
 
   window.onload = cargarCarrito
 

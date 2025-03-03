@@ -1,7 +1,18 @@
 localStorage.clear()
 const playeras = [];
+ 
 
-const carrito = [];
+//function carritoActual(){
+//  console.log("CARRITO ACTUAL AQUI:")
+//  console.log
+//  console.log(carrito)
+//  console.log("--------------")
+//  console.log(carritoLocal)
+//  console.log("--------------")
+
+  
+//}
+ 
 
 CarritoNum = localStorage.getItem("NumCarrito");
 
@@ -259,6 +270,12 @@ AñadirPlayera = function (nombre, precio, espalda, frente) {
   aplicarEstilos(); // 🔥 Aplicar estilos después de agregar una playera
 
   Boton.addEventListener("mousedown", function () {
+
+    //const carritoLocal = JSON.parse(localStorage.getItem("Carrito"))
+    const carrito = JSON.parse(localStorage.getItem("Carrito")) || [];
+
+    //console.log(carritoLocal)
+
     let NumCarrito = localStorage.getItem("NumCarrito");
     if (!NumCarrito) {
 

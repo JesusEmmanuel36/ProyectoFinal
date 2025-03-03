@@ -114,6 +114,8 @@ h3{
 }
 
 .HolderCerrar{
+    cursor: pointer;
+    border: none;
     width: 5%;
     background-color: rgb(255, 255, 255);
     display: flex;

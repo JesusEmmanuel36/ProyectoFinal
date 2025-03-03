@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+ 
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body{
+    font-family: "Lexend";
+    display: flex;
+    flex-direction: row;
+}
+ 
+h3{
+    font-size: 20px;
+}
+
+.HolderEnvio{
+    background-color: aqua;
+}
+
+ 
+
+.HolderCarrito{
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 50%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+    justify-content: left;
+    padding-bottom: 30px;
+}
+
+.DescCarrito{
+    font-weight: 400;
+}
+
+.HolderTextoYDesc{
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+.HolderCarrito .HolderProducto{
+    padding-right: 12px;
+    border-radius: 7px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    text-align: center;
+    gap: 0px;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.HolderC_P_C{
+    gap: 10px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;
+}
+
+.PlayeraIcono{
+    width: 90px;
+    height: 90px;
+}
+
+.HolderNombreYTalla{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    text-align: left;
+
+    gap: 1px;
+    width: 40%;
+    height: 100%;
+}
+
+.HolderNombreYTalla .TallaPlayera{
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.NombrePlayera{
+    top: 10px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+.Cantidad{
+    background-color: rgb(255, 255, 255);
+    text-align: right;
+    width: 80%;
+
+}
+
+.Precio{
+    background-color: rgb(255, 255, 255);
+    text-align: right;
+    width: 10
+    1%;
+}
+
+.HolderCerrar{
+    width: 5%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.HolderCerrar img{
+    width: 20px;
+    height: 20px;
+}
+
+
+@media(max-width:1650px){
+    h3{
+        font-size: 17px;
+    }
+}
+@media(max-width:1550px){
+    h3{
+        font-size: 16.2px;
+    }
+}
+
+
+@media(max-width:845px){
+     
+    body{
+        flex-direction: column;
+    }
+
+    .HolderCarrito{
+        width: 100%;
+    }
+    
+    
+    h3{
+        font-size: 16px;
+    }
+
+    
+}

@@ -1,6 +1,8 @@
 localStorage.clear()
 const playeras = [];
 
+const carrito = [];
+
 CarritoNum = localStorage.getItem("NumCarrito");
 
 botonCarrito = document.getElementById("CarritoHolder")
@@ -320,7 +322,22 @@ AñadirPlayera = function (nombre, precio, espalda, frente) {
             existingAgg.remove();
           }
         }, 2000);  
+
+        const producto = carrito.find(item => item.nombre === nombre && item.talla === Talla);
+
+        if (producto) {
+          producto.cantidad += 1;
+        } else {
+          carrito.push({nombre: nombre, precio: precio, talla: Talla, cantidad: 1, imagen: espalda});
+        }
+
+        localStorage.setItem("Carrito", JSON.stringify(carrito))
         
+        console.log(JSON.parse(localStorage.getItem("Carrito")))
+ 
+
+         
+
         localStorage.setItem("NumCarrito", 1);
         document.getElementById("Carrito").src = "carrito_bola.png";
         document.getElementById("NumeroCarrito").textContent = 1;
@@ -392,6 +409,17 @@ AñadirPlayera = function (nombre, precio, espalda, frente) {
           }
         }, 2000);  
 
+        const producto = carrito.find(item => item.nombre === nombre && item.talla === Talla);
+
+        if (producto) {
+          producto.cantidad += 1;
+        } else {
+          carrito.push({nombre: nombre, precio: precio, talla: Talla, cantidad: 1, imagen: espalda});
+        }
+        
+        localStorage.setItem("Carrito", JSON.stringify(carrito))
+        
+        console.log(JSON.parse(localStorage.getItem("Carrito")))
 
         let NuevoCarritoNum = Number(NumCarrito) + 1;
         localStorage.setItem("NumCarrito", NuevoCarritoNum);

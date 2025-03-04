@@ -1,6 +1,18 @@
-//localStorage.clear()
+localStorage.clear()
 const playeras = [];
+
  
+
+let SesionIniciada = localStorage.getItem("SesionIniciada")
+
+if (!SesionIniciada){
+  localStorage.setItem("SesionIniciada", false)
+}
+
+SesionIniciada = localStorage.getItem("SesionIniciada")
+
+ 
+
 
 function carritoActual(){
   window.addEventListener("storage", (event) => {
@@ -18,6 +30,62 @@ function carritoActual(){
 });
 }
 
+function mensaje(texto){
+  ErrorHolder = document.getElementById("ErrorHolder")
+  ErrorHolder.style.zIndex = 1100
+  divAgregado = document.createElement("div")
+  divAgregado.classList.add("FrameAgregado")
+  imgAgregado = document.createElement("img")
+  imgAgregado.classList.add("agregadoImg")
+  imgAgregado.src = "check.png"
+  Mensaje = document.createElement("h3")
+  Mensaje.textContent = texto
+
+  divAgregado.style.display = "flex"
+  
+  divAgregado.appendChild(imgAgregado)
+  divAgregado.appendChild(Mensaje)
+
+  ErrorHolder.appendChild(divAgregado)
+
+  setTimeout(function() {
+    let existingAgg = document.querySelector(".FrameAgregado");
+    if (existingAgg) {
+      existingAgg.remove();
+    }
+  }, 2000);  
+}
+
+function error(texto){
+  ErrorHolder = document.getElementById("ErrorHolder")
+  ErrorHolder.style.zIndex = 1100
+  divError = document.createElement("div")
+  divError.classList.add("FrameError")
+  imgError = document.createElement("img")
+  imgError.classList.add("errorImg")
+  imgError.src = "ERROR.png"
+  Mensaje = document.createElement("h3")
+  Mensaje.textContent = texto
+  imgCruz = document.createElement("imgCruz")
+  imgCruz.classList.add("Cruz")
+  imgCruz.src = "CRUZ.png"
+
+  divError.style.display = "relative"
+  
+  divError.appendChild(imgError)
+  divError.appendChild(Mensaje)
+  divError.appendChild(imgCruz)
+
+  ErrorHolder.appendChild(divError)
+
+  setTimeout(function() {
+    let existingError = document.querySelector(".FrameError");
+    if (existingError) {
+      existingError.remove();
+    }
+  }, 2000);  
+}
+
   
 //}
 
@@ -29,9 +97,124 @@ CarritoNum = localStorage.getItem("NumCarrito");
 botonCarrito = document.getElementById("CarritoHolder")
 
 botonCarrito.addEventListener("mousedown", function () {
-  console.log("presionado")
-  window.location.href = "/carrito";
+  if(SesionIniciada === true){
+    console.log("presionado")
+    window.location.href = "/carrito";
+  }else{
+    console.log("INICIA SESION PARA CONTINUAR")
+
+    sessionStorage.setItem("SignInSignUp", "SIGNIN")
+ 
+
+    frameObscuro = document.getElementById("FrameTraseroLogin")
+    frameObscuro.style.display = "flex"
+
+    frameLogin  = document.getElementById("LoginHolder")
+    frameLogin.style.display = "flex"
+  }
 })
+
+frameLogin  = document.getElementById("LoginHolder")
+botonEntrar = frameLogin.querySelector("#BotonEntrar")
+botonCrearcuenta = frameLogin.querySelector("#BotonCrearCuenta")
+botonCrearcuenta.addEventListener("mousedown", function(){
+  let Status = sessionStorage.getItem("SignInSignUp")
+  if (Status === "SIGNIN"){
+    TextoStatus = frameLogin.querySelector("h3")
+    TextoStatus.textContent = "Crear Cuenta"
+    botonCrearcuenta.textContent = "Iniciar Sesión"
+
+
+    sessionStorage.setItem("SignInSignUp", "SIGNUP")
+  }else{
+    TextoStatus = frameLogin.querySelector("h3")
+    TextoStatus.textContent = "Iniciar Sesión"
+    botonCrearcuenta.textContent = "Crear Cuenta"
+
+    sessionStorage.setItem("SignInSignUp", "SIGNIN")
+  }
+  //console.log("CREANDO CUENTA")
+  console.log(sessionStorage.getItem("SignInSignUp"))
+})
+
+
+botonEntrar.addEventListener("mousedown", async function(){
+  let Status = sessionStorage.getItem("SignInSignUp");
+  let email = frameLogin.querySelector(".TextboxEmail"); // Cambia '#' por '.'
+  let contra = frameLogin.querySelector(".TextboxPassword"); // Cambia '#' por '.'
+ 
+
+  if (Status === "SIGNIN") {
+
+      if((email.value).includes("@") && (email.value !== "")){
+        if(contra.value !== ""){
+
+          // AQUI API INICIO SESION
+          mensaje("Iniciaste Sesión")
+          console.log("INICIANDO SESION: " + email.value + ", " + contra.value);
+          email.value = ""
+          contra.value = ""
+        }else{
+          error("Error: Contraseña no valida")
+        }
+      }else{
+        error("Error: Correo no valido")
+      }
+
+ 
+
+  } else {
+
+    
+    if((email.value !== "")){
+      if(contra.value !== ""){
+        correo = email.value
+        contraseña = contra.value
+
+        try {
+          const response = await fetch('/api/users/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ correo, contraseña })
+          });
+  
+          const data = await response.json();
+          if (response.ok) {
+            mensaje("Cuenta creada")
+            console.log("ok")
+          } else {
+            error(data.message)
+          }
+        } catch (error) {
+          console.error('Error en el registro:', error);
+        }
+
+        // AQUI API CREAR CUENTA
+        console.log("CREANDO CUENTA: " + email.value + ", " + contra.value);
+        email.value = ""
+        contra.value = ""
+  
+        //mensaje("Cuenta Creada")
+  
+        TextoStatus = frameLogin.querySelector("h3")
+        TextoStatus.textContent = "Iniciar Sesión"
+        botonCrearcuenta.textContent = "Crear Cuenta"
+  
+        sessionStorage.setItem("SignInSignUp", "SIGNIN")
+
+      }else{
+        error("Error: Contraseña no valida")
+      }
+    }else{
+      error("Error: Correo no valido")
+    }
+
+ 
+  }
+});
+
+
+
 
 if (CarritoNum) {
   if(Number(CarritoNum)  !== 0){

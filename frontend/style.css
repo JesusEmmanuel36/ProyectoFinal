@@ -20,16 +20,41 @@ body{
     flex-direction: row;
     height: 80px;
     align-items: center;
+    gap: 10px;
  }
 
 .TitleHolder .LogoHolder{
-    background-color: rgb(255, 255, 255);
+   
+    background-color: rgba(255, 255, 255, 0.968);
     width: 95%;
     display: flex;
     flex-direction: row;
     padding-left: 20px;
     align-items: center;
  }
+
+.TitleHolder .HolderLoginSignup{
+    display: flex;
+    flex-direction: row;
+ 
+    color: white;
+    height: 33px;
+    width: 215px;
+}
+
+.TitleHolder .BotonLoginSignup{
+    font-family: "Lexend";
+    font-weight: bold;
+    font-size: 16px;
+    border: none;  
+    box-shadow: none;  
+    cursor: pointer;
+    border-radius: 10px;
+
+    background-color: black;
+    color: white;
+    width: 100%;
+}
 
 .TitleHolder .CarritoHolder {
     border: none;  
@@ -39,7 +64,6 @@ body{
     
     background-color: rgb(255, 255, 255);
     width: 5%;
-    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -302,6 +326,137 @@ body{
     font-size: 18px;
 }
 
+@keyframes Visible {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.3;
+    }
+}
+
+@keyframes Invicible {
+    from {
+        opacity: 0.3;
+    }
+    to {
+        opacity: 0; 
+    }
+}
+
+@keyframes VisibleLogin {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes InvicibleLogin {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0; 
+    }
+}
+
+.FrameTraseroLogin{
+    display: none;
+    background-color: black;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    animation: Visible 0.3s forwards;
+}
+
+.LoginHolder {
+    border-radius: 9px;
+    width: 400px;
+    height: 300px;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: white;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+   
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    /* Centrar en pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    box-shadow:  0 6px 6px 6px rgba(0, 0, 0, 0.1);
+    animation: VisibleLogin 0.3s forwards;
+}
+
+.LoginHolder .TextboxEmail{
+
+}
+
+.LoginHolder .TextboxPassword{
+    
+}
+
+
+
+.LoginHolder h3 {
+    font-size: 21px;
+    padding-top: 10px;
+    text-align: center;
+    width: 100%;
+    height: 20%;
+}
+
+
+.LoginHolder button{
+ 
+    font-family: "Lexend";
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    height: 20%;
+}
+
+.LoginHolder .BotonEntrar{
+    font-size: 21px;
+    background-color: black;
+    color: rgb(255, 255, 255);
+}
+
+.LoginHolder .BotonCrearCuenta{
+    font-family: "Lexend";
+    font-size: 18px;
+    background-color: white;
+}
+
+.LoginHolder input{
+    outline: black;
+    border: 2px solid black;
+    box-shadow: none;
+    font-family: "Lexend";
+    font-size: 18px;
+    padding-left: 10px;
+    border-radius: 5px;
+    width: 100%;
+    height: 20%;
+}
+
+
+
 
 @media(max-width:1250px){
     .Playeras h3{
@@ -337,6 +492,17 @@ body{
 }
   
 @media(max-width:800px){
+    .TitleHolder .HolderLoginSignup{
+        width: 330px;
+    }
+
+    .TitleHolder .BotonLoginSignup{
+        font-size: 14px;
+    }
+
+    .TitleHolder{
+        gap: 30px;
+    }
     .Playeras .Holder3playeras .HolderPlayera .divTamaño{
         margin-top: 5.4vh;
         margin-left: 45%;

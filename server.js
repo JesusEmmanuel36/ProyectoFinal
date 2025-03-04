@@ -1,8 +1,25 @@
 const express = require("express");
-const app = express();
+ 
 const path = require("path");
+require('dotenv').config();
+//const userRoutes = require('./routes/user');
+const app = express();
+
+const mongoose = require('mongoose');
+
+
+mongoose.connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }).then(() => console.log('Conectado a MongoDB'))
+    .catch(err => console.error('Error al conectar a MongoDB:', err));
+
+
+ 
+
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+app.use('/api/users', userRoutes)
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "index.html")); // Carga inicio.html primero

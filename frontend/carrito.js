@@ -96,6 +96,12 @@ function añadirPlayera(nombre, talla, cantidad, precio, imagenPlayera) {
         const botonEliminar = holderPlayera.querySelector("#HolderCerrar");  
         botonEliminar.addEventListener("mousedown", function() {  
             cantidadPlayeras -=1
+
+            let numCarr = Number(localStorage.getItem("NumCarrito"))
+            numCarr = numCarr-= producto.cantidad
+            localStorage.setItem("NumCarrito", numCarr)
+            
+
             carrito[i] = undefined;  // Marcamos el producto como undefined  
             PlayeraHolder.removeChild(holderPlayera)
             descripcion.textContent = "Tienes " + cantidadPlayeras + " producto(s) en el carrito"; 

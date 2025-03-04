@@ -1,17 +1,27 @@
-localStorage.clear()
+//localStorage.clear()
 const playeras = [];
  
 
-//function carritoActual(){
-//  console.log("CARRITO ACTUAL AQUI:")
-//  console.log
-//  console.log(carrito)
-//  console.log("--------------")
-//  console.log(carritoLocal)
-//  console.log("--------------")
+function carritoActual(){
+  window.addEventListener("storage", (event) => {
+    if (event.key === "NumCarrito") {
+        console.log(event.newValue)
+
+        if (Number(event.newValue) === 0){
+          document.getElementById("NumeroCarrito").textContent = ""
+          document.getElementById("Carrito").src = "carrito.png"
+        }else{
+          document.getElementById("NumeroCarrito").textContent = event.newValue
+        }
+        
+    }
+});
+}
 
   
 //}
+
+window.onload = carritoActual
  
 
 CarritoNum = localStorage.getItem("NumCarrito");
@@ -24,11 +34,13 @@ botonCarrito.addEventListener("mousedown", function () {
 })
 
 if (CarritoNum) {
-  let Carrito = document.getElementById("Carrito");
-  Carrito.src = "carrito_bola.png";
-
-  let NumeroCarrito = document.getElementById("NumeroCarrito");
-  NumeroCarrito.textContent = Number(CarritoNum);
+  if(Number(CarritoNum)  !== 0){
+    let Carrito = document.getElementById("Carrito");
+    Carrito.src = "carrito_bola.png";
+  
+    let NumeroCarrito = document.getElementById("NumeroCarrito");
+    NumeroCarrito.textContent = Number(CarritoNum);
+  }
 }
 
 let pantallaPequena = window.matchMedia("(max-width: 800px)").matches; // Estado inicial
@@ -439,6 +451,7 @@ AñadirPlayera = function (nombre, precio, espalda, frente) {
         console.log(JSON.parse(localStorage.getItem("Carrito")))
 
         let NuevoCarritoNum = Number(NumCarrito) + 1;
+        document.getElementById("Carrito").src = "carrito_bola.png";
         localStorage.setItem("NumCarrito", NuevoCarritoNum);
         document.getElementById("NumeroCarrito").textContent = NuevoCarritoNum;
       }

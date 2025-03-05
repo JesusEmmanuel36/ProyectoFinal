@@ -1,4 +1,33 @@
 let cantidadPlayeras = 0
+
+
+
+window.addEventListener("beforeunload", () => {
+  let carrito = localStorage.getItem("Carrito");
+  let carritoAnterior = localStorage.getItem("CarritoAnterior");
+
+  if (carrito) {
+    if (!carritoAnterior) {
+      localStorage.setItem("CarritoAnterior", carrito);
+    } else {
+      if (carrito !== carritoAnterior) {
+        // API
+
+        console.log("CARRITO: EL CARRITO CAMBIÓ");
+        localStorage.setItem("CarritoAnterior", carrito); // 🔹 Actualizar en localStorage
+      }
+    }
+  } 
+});
+
+//let carritoAnterior = localStorage.getItem("Carrito")
+//window.addEventListener("beforeunload", () => {
+  //let carrito = localStorage.getItem("Carrito")
+  //if(carrito !== carritoAnterior){
+    //console.log("CARRITO: EL CARRITO CAMBIO")
+    //carritoAnterior = localStorage.getItem("Carrito")
+  //}
+//});
  
  
 function añadirPlayera(nombre, talla, cantidad, precio, imagenPlayera) {

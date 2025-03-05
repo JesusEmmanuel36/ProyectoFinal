@@ -1,57 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Principal</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body> 
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Página Principal</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="ErrorHolder" id="ErrorHolder"></div>
 
+        <div id="FrameTraseroLogin" class="FrameTraseroLogin"></div>
 
-    
-    <div class="ErrorHolder" id="ErrorHolder"></div>
-
-    <div id="FrameTraseroLogin" class="FrameTraseroLogin"></div>
-
-    <div class="LoginHolder" id="LoginHolder">
-        <h3>Iniciar Sesión</h3>
-        <input class="TextboxEmail" type="email" placeholder="Correo"/>
-        <input class="TextboxPassword" type="password" placeholder="Contraseña"/>
-        <button class="BotonEntrar" id="BotonEntrar">Entrar</button>
-        <button class="BotonCrearCuenta" id="BotonCrearCuenta">Crear Cuenta</button>
-    </div>
-
-
-
-    <div class="TitleHolder" id="Title">
-        <div class="LogoHolder">
-            <img class="LOGO" src="TEES4ULOGO.png" alt="">
+        <div class="LoginHolder" id="LoginHolder">
+            <h3>Iniciar Sesión</h3>
+            <input class="TextboxEmail" type="email" placeholder="Correo" />
+            <input
+                class="TextboxPassword"
+                type="password"
+                placeholder="Contraseña"
+            />
+            <button class="BotonEntrar" id="BotonEntrar">Entrar</button>
+            <button class="BotonCrearCuenta" id="BotonCrearCuenta">
+                Crear Cuenta
+            </button>
         </div>
 
-        <div class="HolderLoginSignup">
-            <button class="BotonLoginSignup">Iniciar Sesión</button>
+        <div class="TitleHolder" id="Title">
+            <div class="LogoHolder">
+                <img class="LOGO" src="TEES4ULOGO.png" alt="" />
+            </div>
+
+            <div class="HolderLoginSignup">
+                <button class="BotonLoginSignup" id="BotonLoginSignup">
+                    Iniciar Sesión
+                </button>
+            </div>
+
+            <button class="CarritoHolder" id="CarritoHolder">
+                <img class="Carrito" id="Carrito" src="carrito.png" alt="" />
+
+                <p class="NumeroCarrito" id="NumeroCarrito"></p>
+            </button>
         </div>
 
+        <div class="EnvioGratis">
+            <h3 class="TextoeEnvioGratis">
+                ENVIO GRATIS DESDE LA PRIMERA COMPRA!
+            </h3>
+        </div>
 
-        <button class="CarritoHolder" id="CarritoHolder">
-            <img class="Carrito" id="Carrito" src="carrito.png" alt="">
-            
-            <p class="NumeroCarrito" id="NumeroCarrito"></p>
-        </button>
+        <div class="Playeras" id="PlayerasHolder">
+            <div class="Holder3playeras" id="Holder3playeras"></div>
+        </div>
 
-     </div>
-
-     <div class="EnvioGratis">
-        <h3 class="TextoeEnvioGratis">ENVIO GRATIS DESDE LA PRIMERA COMPRA!</h3>
-    </div>
-
-    <div class="Playeras" id="PlayerasHolder">
-        <div class="Holder3playeras" id="Holder3playeras"></div>
-    </div>
-
- 
-
-    <script src="script.js"></script>  
-</body>
+        <script src="script.js"></script>
+    </body>
 </html>

@@ -917,28 +917,28 @@ AñadirPlayera(
   "mercedf-3aeb16d6e3babe8e4917300220398676-1024-1024.webp",
 );
 AñadirPlayera(
-  "FERRARI RACING",
+  "SPRB",
   "$500",
-  "ferrv-3731a432ef5bf9448b17300220912559-1024-1024.webp",
-  "ferrvf-4514b920a9a8fc7ae617300220906766-1024-1024.webp",
+  "SPRB_DETRAS.webp",
+  "SPRB_DELANTE.webp",
 );
 AñadirPlayera(
-  "MOTOR SPORT",
+  "REDBULL TEAM",
   "$500",
-  "white-back-cb6ea57eaebb8c383217283803264994-1024-1024.webp",
-  "white-front-c0781917adc656079917283803290261-1024-1024.webp",
+  "RB TEAM DETRAS.webp",
+  "RB TEAM DELANTE.webp",
 );
 AñadirPlayera(
-  "MCLAREN F1",
+  "REDBULL RACING",
   "$500",
-  "mc2-349727e1c45142e99517300232886802-1024-1024.webp",
-  "mc23f-bd9a3e68b4c843f8e517300232820694-1024-1024.webp",
+  "RB RACING DETRAS.webp",
+  "RB RACING FRENTE.webp",
 );
 AñadirPlayera(
-  "MERCEDES F1",
+  "MCLAREN RACING",
   "$500",
-  "mercdes-832adf5180ddad05d317300220409930-1024-1024.webp",
-  "mercedf-3aeb16d6e3babe8e4917300220398676-1024-1024.webp",
+  "MCLAREN RACING DETRAS.webp",
+  "MCLAREN RACING DELANTE.webp",
 );
 
 aplicarInicio();

@@ -85,27 +85,50 @@ function getUnidades(userid, callback) {
   xhr.send(JSON.stringify({ userid }));
 }
 
+ 
+
+
 botonPagar = document.getElementById("BotonPagar")
 codigoPostal = document.getElementById("CodigoPostal")
+
+function consultarCodigoPostal(codigo) {
+  const xhr = new XMLHttpRequest();
+  const url = "https://apicp.softfortoday.com/api/v1/codigos_postales/" + codigo;
+
+  // Configura la solicitud GET
+  xhr.open("GET", url, true);
+
+  // Establece los encabezados
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  // Define lo que ocurre cuando la solicitud se completa
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // Si la solicitud fue exitosa, procesa la respuesta
+      const data = JSON.parse(xhr.responseText);
+      console.log(data);
+    } else {
+      // Si hubo un error con la solicitud
+      console.error("Error al obtener datos: ", xhr.statusText);
+    }
+  };
+
+  // Maneja posibles errores de la solicitud
+  xhr.onerror = function() {
+    console.error("Error de red o servidor.");
+  };
+
+  // Envia la solicitud
+  xhr.send();
+}
+
+ 
 
 botonPagar.addEventListener("mousedown", async function(){
   if (codigoPostal.value !== ""){
     console.log("AQUI API CODIGO POSTAL")
-     
 
-    try {
-      const response = await fetch("https://apicp.softfortoday.com/api/v1/codigos_postales/" + codigoPostal.value, {
-        method: "GET",
-        headers: { "Content-Type": "application/json"},
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    consultarCodigoPostal(codigoPostal.value);
 
   }
 

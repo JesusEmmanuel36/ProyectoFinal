@@ -85,6 +85,32 @@ function getUnidades(userid, callback) {
   xhr.send(JSON.stringify({ userid }));
 }
 
+botonPagar = document.getElementById("BotonPagar")
+codigoPostal = document.getElementById("CodigoPostal")
+
+botonPagar.addEventListener("mousedown", async function(){
+  if (codigoPostal.value !== ""){
+    console.log("AQUI API CODIGO POSTAL")
+     
+
+    try {
+      const response = await fetch("https://apicp.softfortoday.com/api/v1/codigos_postales/" + codigoPostal.value, {
+        method: "GET",
+        headers: { "Content-Type": "application/json"},
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+})
+
 //let carritoAnterior = localStorage.getItem("Carrito")
 //window.addEventListener("beforeunload", () => {
 //let carrito = localStorage.getItem("Carrito")

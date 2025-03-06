@@ -1,4 +1,4 @@
-localStorage.clear();
+//localStorage.clear();
 const playeras = [];
 
 let SesionIniciada = localStorage.getItem("SesionIniciada");
@@ -9,9 +9,65 @@ if (!SesionIniciada) {
 
 SesionIniciada = localStorage.getItem("SesionIniciada");
 
+if (SesionIniciada == "true") {
+  botonIniciarSesion = document.getElementById("BotonLoginSignup");
+  botonIniciarSesion.textContent = "Cerrar Sesión";
+
+  console.log(
+    "SESION INICIADA, CARGANDO CARRITO, USERID: " +
+      localStorage.getItem("UserId"),
+  );
+}
+
+function getCarrito(userid, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/api/carrito/ver-carrito", true); // "true" hace que la petición sea asincrónica
+
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  // Evento que se ejecuta cuando la respuesta llega
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      callback(data.carrito); // Llamar al callback con el carrito
+    } else {
+      console.error("Error al obtener el carrito:", xhr.statusText);
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error("Error de red");
+  };
+
+  // Enviar la solicitud
+  xhr.send(JSON.stringify({ userid }));
+}
+
+async function mandarCarrito(userid, carrito) {
+  try {
+    const response = await fetch("/api/carrito/agregar-producto", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userid, carrito }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data.message);
+    } else {
+      console.error(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function carritoActual() {
+  //console.log("EJECUCION AL RECARGAR AQUI");
   window.addEventListener("storage", (event) => {
+    console.log("e");
     if (event.key === "NumCarrito") {
+      /// API AQUI CARRITO
       console.log(event.newValue);
 
       if (Number(event.newValue) === 0) {
@@ -24,31 +80,75 @@ function carritoActual() {
   });
 }
 
+async function mandarUnidades(userid, unidades) {
+  try {
+    const response = await fetch("/api/unidades/agregar-unidades", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userid, unidades }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data.message);
+    } else {
+      console.error(data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function getUnidades(userid, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/api/unidades/get-unidades", true);
+
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const data = JSON.parse(xhr.responseText);
+      callback(data.unidades);
+    } else {
+      console.error("Error al obtener el carrito:", xhr.statusText);
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error("Error de red");
+  };
+
+  // Enviar la solicitud
+  xhr.send(JSON.stringify({ userid }));
+}
+
+window.addEventListener("pageshow", function (event) {
+  let SesionIniciadaa = localStorage.getItem("SesionIniciada");
+
+  if (SesionIniciadaa === "true" && UserId) {
+    //mandarUnidades(UserId, 3);
+
+    getUnidades(UserId, function (unidades) {
+      console.log("SE RECIBIERON LAS UNIDADES: " + unidades);
+
+      if (Number(unidades) === 0) {
+        document.getElementById("NumeroCarrito").textContent = "";
+        document.getElementById("Carrito").src = "carrito.png";
+      } else {
+        let Carrito = document.getElementById("Carrito");
+        Carrito.src = "carrito_bola.png";
+
+        document.getElementById("NumeroCarrito").textContent = Number(unidades);
+      }
+    });
+
+    console.log("PAGINA REFRESCADA, CARGANDO CARRITO");
+  }
+});
+
 //let carritoAnterior = localStorage.getItem("Carrito")
 
 //let carritoAnterior = localStorage.getItem("CarritoAnterior")
-window.addEventListener("beforeunload", () => {
-  let carrito = localStorage.getItem("Carrito");
-  let carritoAnterior = localStorage.getItem("CarritoAnterior");
-
-  if (carrito) {
-    if (!carritoAnterior) {
-      // API
-
-      console.log("PAG PRINCIPAL: SE AÑADIERON PRIMEROS PRODUCTOS")
-
-      localStorage.setItem("CarritoAnterior", carrito);
-    } else {
-      if (carrito !== carritoAnterior) {
-        // API
-        
-        console.log("PAG PRINCIPAL: EL CARRITO CAMBIÓ");
-        localStorage.setItem("CarritoAnterior", carrito); // 🔹 Actualizar en localStorage
-      }
-    }
-  } 
-});
- 
 
 function mensaje(texto) {
   ErrorHolder = document.getElementById("ErrorHolder");
@@ -108,9 +208,15 @@ function error(texto) {
 
 //}
 
-window.onload = carritoActual;
+//window.onload = carritoActual;
 
-CarritoNum = localStorage.getItem("NumCarrito");
+//getCarrito();
+
+let UserId = localStorage.getItem("UserId");
+getUnidades(UserId, function (unidades) {});
+
+//CarritoNum = localStorage.getItem("NumCarrito"); // AQUI API CARRITONUM
+//console.log("CARRITO NUMMM: " + CarritoNum);
 
 botonIniciarSesion = document.getElementById("BotonLoginSignup");
 botonCarrito = document.getElementById("CarritoHolder");
@@ -121,6 +227,10 @@ botonIniciarSesion.addEventListener("click", function () {
   if (SesionIniciadaa === "true") {
     botonIniciarSesion.textContent = "Iniciar Sesión";
     localStorage.setItem("SesionIniciada", false);
+    localStorage.removeItem("UserId");
+    console.log("SESION CERRADA, YA NO HAY USERID");
+
+    location.reload();
   } else {
     sessionStorage.setItem("SignInSignUp", "SIGNIN");
 
@@ -223,8 +333,14 @@ botonEntrar.addEventListener("mousedown", async function () {
               botonIniciarSesion.textContent = "Cerrar Sesión";
 
               localStorage.setItem("SesionIniciada", true);
+              localStorage.setItem("UserId", data.userId);
+
+              console.log(localStorage.getItem("UserId"));
+              console.log(localStorage.getItem("SesionIniciada"));
 
               /// AQUIIII
+
+              location.reload();
               mensaje("Iniciaste Sesión!");
             } else {
               error("Usuario/Contraseña incorrecta");
@@ -290,6 +406,7 @@ botonEntrar.addEventListener("mousedown", async function () {
   }
 });
 
+/*
 if (CarritoNum) {
   if (Number(CarritoNum) !== 0) {
     let Carrito = document.getElementById("Carrito");
@@ -297,8 +414,11 @@ if (CarritoNum) {
 
     let NumeroCarrito = document.getElementById("NumeroCarrito");
     NumeroCarrito.textContent = Number(CarritoNum);
+  } else {
+    console.log("e");
   }
 }
+*/
 
 let pantallaPequena = window.matchMedia("(max-width: 800px)").matches; // Estado inicial
 
@@ -543,189 +663,231 @@ AñadirPlayera = function (nombre, precio, espalda, frente) {
   aplicarEstilos(); // 🔥 Aplicar estilos después de agregar una playera
 
   Boton.addEventListener("mousedown", async function () {
+    let sesionIniciadaa = localStorage.getItem("SesionIniciada");
+    console.log(sesionIniciadaa);
+
+    if (sesionIniciadaa !== "true") {
+      frameObscuro = document.getElementById("FrameTraseroLogin");
+      frameObscuro.style.display = "flex";
+
+      frameLogin = document.getElementById("LoginHolder");
+      frameLogin.style.display = "flex";
+
+      return;
+    }
+
     //const carritoLocal = JSON.parse(localStorage.getItem("Carrito"))
-    const carrito = JSON.parse(localStorage.getItem("Carrito")) || [];
+    //const carrito = JSON.parse(localStorage.getItem("Carrito")) || [];
+
+    console.log("CARRIT AQUI");
+
+    let userId = localStorage.getItem("UserId");
+
+    getCarrito(userId, function (carrito) {
+      console.log("Carrito recibido:", carrito); // ✅ Verifica qué llega aquí
+
+      // Si carrito ya es un objeto, no hagas JSON.parse
+      if (typeof carrito === "string") {
+        carrito = JSON.parse(carrito);
+      }
+
+      ////////////////////
+
+      let UserId = localStorage.getItem("UserId");
+
+      getUnidades(UserId, function (NumCarrito) {
+        //////////////////
+
+        //let NumCarrito = localStorage.getItem("NumCarrito"); // AQUI API
+        //if (!NumCarrito) {
+
+        if (Number(NumCarrito) === 0) {
+          if (Talla === "") {
+            ErrorHolder = document.getElementById("ErrorHolder");
+
+            divError = document.createElement("div");
+            divError.classList.add("FrameError");
+            imgError = document.createElement("img");
+            imgError.classList.add("errorImg");
+            imgError.src = "ERROR.png";
+            Mensaje = document.createElement("h3");
+            Mensaje.textContent = "Error: Selecciona tu talla";
+            imgCruz = document.createElement("imgCruz");
+            imgCruz.classList.add("Cruz");
+            imgCruz.src = "CRUZ.png";
+
+            divError.style.display = "relative";
+
+            divError.appendChild(imgError);
+            divError.appendChild(Mensaje);
+            divError.appendChild(imgCruz);
+
+            ErrorHolder.appendChild(divError);
+
+            setTimeout(function () {
+              let existingError = document.querySelector(".FrameError");
+              if (existingError) {
+                existingError.remove();
+              }
+            }, 2000);
+          } else {
+            ErrorHolder = document.getElementById("ErrorHolder");
+
+            divAgregado = document.createElement("div");
+            divAgregado.classList.add("FrameAgregado");
+            imgAgregado = document.createElement("img");
+            imgAgregado.classList.add("agregadoImg");
+            imgAgregado.src = "check.png";
+            Mensaje = document.createElement("h3");
+            Mensaje.textContent = "Agregado al carrito";
+
+            divAgregado.style.display = "flex";
+
+            divAgregado.appendChild(imgAgregado);
+            divAgregado.appendChild(Mensaje);
+
+            ErrorHolder.appendChild(divAgregado);
+
+            setTimeout(function () {
+              let existingAgg = document.querySelector(".FrameAgregado");
+              if (existingAgg) {
+                existingAgg.remove();
+              }
+            }, 2000);
+
+            const producto = carrito.find(
+              (item) => item.nombre === nombre && item.talla === Talla,
+            );
+
+            if (producto) {
+              producto.cantidad += 1;
+            } else {
+              carrito.push({
+                nombre: nombre,
+                precio: precio,
+                talla: Talla,
+                cantidad: 1,
+                imagen: espalda,
+              });
+            }
+
+            //localStorage.setItem("Carrito", JSON.stringify(carrito));
+
+            let userId = localStorage.getItem("UserId");
+            mandarCarrito(userId, JSON.stringify(carrito));
+            //console.log(localStorage.getItem("Carrito"));
+
+            mandarUnidades(userId, 1);
+
+            //localStorage.setItem("NumCarrito", 1);
+            document.getElementById("Carrito").src = "carrito_bola.png";
+            document.getElementById("NumeroCarrito").textContent = 1;
+          }
+
+          // api aqui
+        } else {
+          // api aqui
+
+          if (Talla === "") {
+            ErrorHolder = document.getElementById("ErrorHolder");
+
+            divError = document.createElement("div");
+            divError.classList.add("FrameError");
+            imgError = document.createElement("img");
+            imgError.classList.add("errorImg");
+            imgError.src = "ERROR.png";
+            Mensaje = document.createElement("h3");
+            Mensaje.textContent = "Error: Selecciona tu talla";
+            imgCruz = document.createElement("imgCruz");
+            imgCruz.classList.add("Cruz");
+            imgCruz.src = "CRUZ.png";
+
+            divError.style.display = "flex";
+
+            divError.appendChild(imgError);
+            divError.appendChild(Mensaje);
+            divError.appendChild(imgCruz);
+
+            ErrorHolder.appendChild(divError);
+
+            setTimeout(function () {
+              let existingError = document.querySelector(".FrameError");
+              if (existingError) {
+                existingError.remove();
+              }
+            }, 2000);
+          } else {
+            ErrorHolder = document.getElementById("ErrorHolder");
+
+            divAgregado = document.createElement("div");
+            divAgregado.classList.add("FrameAgregado");
+            imgAgregado = document.createElement("img");
+            imgAgregado.classList.add("agregadoImg");
+            imgAgregado.src = "check.png";
+            Mensaje = document.createElement("h3");
+            Mensaje.textContent = "Agregado al carrito";
+
+            divAgregado.style.display = "flex";
+
+            divAgregado.appendChild(imgAgregado);
+            divAgregado.appendChild(Mensaje);
+
+            ErrorHolder.appendChild(divAgregado);
+
+            setTimeout(function () {
+              let existingAgg = document.querySelector(".FrameAgregado");
+              if (existingAgg) {
+                existingAgg.remove();
+              }
+            }, 2000);
+
+            const producto = carrito.find(
+              (item) => item.nombre === nombre && item.talla === Talla,
+            );
+
+            if (producto) {
+              producto.cantidad += 1;
+            } else {
+              carrito.push({
+                nombre: nombre,
+                precio: precio,
+                talla: Talla,
+                cantidad: 1,
+                imagen: espalda,
+              });
+            }
+
+            //localStorage.setItem("Carrito", JSON.stringify(carrito));
+
+            let userId = localStorage.getItem("UserId");
+            mandarCarrito(userId, JSON.stringify(carrito));
+
+            //getCarrito();
+
+            //console.log(localStorage.getItem("Carrito"));
+
+            let NuevoCarritoNum = Number(NumCarrito) + 1;
+
+            mandarUnidades(userId, NuevoCarritoNum);
+
+            document.getElementById("Carrito").src = "carrito_bola.png";
+            //localStorage.setItem("NumCarrito", NuevoCarritoNum);
+            document.getElementById("NumeroCarrito").textContent =
+              NuevoCarritoNum;
+          }
+        }
+
+        //////////////////
+      });
+
+      ////////////////////
+
+      //console.log(carrito);
+    });
+
+    //console.log(getCarrito(userId));
 
     //console.log(carritoLocal)
-
-    let NumCarrito = localStorage.getItem("NumCarrito");
-    if (!NumCarrito) {
-      
-
- 
-
-
-
-      if (Talla === "") {
-        ErrorHolder = document.getElementById("ErrorHolder");
-
-        divError = document.createElement("div");
-        divError.classList.add("FrameError");
-        imgError = document.createElement("img");
-        imgError.classList.add("errorImg");
-        imgError.src = "ERROR.png";
-        Mensaje = document.createElement("h3");
-        Mensaje.textContent = "Error: Selecciona tu talla";
-        imgCruz = document.createElement("imgCruz");
-        imgCruz.classList.add("Cruz");
-        imgCruz.src = "CRUZ.png";
-
-        divError.style.display = "relative";
-
-        divError.appendChild(imgError);
-        divError.appendChild(Mensaje);
-        divError.appendChild(imgCruz);
-
-        ErrorHolder.appendChild(divError);
-
-        setTimeout(function () {
-          let existingError = document.querySelector(".FrameError");
-          if (existingError) {
-            existingError.remove();
-          }
-        }, 2000);
-      } else {
-        ErrorHolder = document.getElementById("ErrorHolder");
-
-        divAgregado = document.createElement("div");
-        divAgregado.classList.add("FrameAgregado");
-        imgAgregado = document.createElement("img");
-        imgAgregado.classList.add("agregadoImg");
-        imgAgregado.src = "check.png";
-        Mensaje = document.createElement("h3");
-        Mensaje.textContent = "Agregado al carrito";
-
-        divAgregado.style.display = "flex";
-
-        divAgregado.appendChild(imgAgregado);
-        divAgregado.appendChild(Mensaje);
-
-        ErrorHolder.appendChild(divAgregado);
-
-        setTimeout(function () {
-          let existingAgg = document.querySelector(".FrameAgregado");
-          if (existingAgg) {
-            existingAgg.remove();
-          }
-        }, 2000);
-
-        const producto = carrito.find(
-          (item) => item.nombre === nombre && item.talla === Talla,
-        );
-
- 
-
-        if (producto) {
-          producto.cantidad += 1;
-        } else {
-          carrito.push({
-            nombre: nombre,
-            precio: precio,
-            talla: Talla,
-            cantidad: 1,
-            imagen: espalda,
-          });
-        }
-
-        localStorage.setItem("Carrito", JSON.stringify(carrito));
-
-        console.log(JSON.parse(localStorage.getItem("Carrito")));
-
-        localStorage.setItem("NumCarrito", 1);
-        document.getElementById("Carrito").src = "carrito_bola.png";
-        document.getElementById("NumeroCarrito").textContent = 1;
-
- 
-
-
-      }
-
-      // api aqui
-    } else {
-      // api aqui
-
-      if (Talla === "") {
-        ErrorHolder = document.getElementById("ErrorHolder");
-
-        divError = document.createElement("div");
-        divError.classList.add("FrameError");
-        imgError = document.createElement("img");
-        imgError.classList.add("errorImg");
-        imgError.src = "ERROR.png";
-        Mensaje = document.createElement("h3");
-        Mensaje.textContent = "Error: Selecciona tu talla";
-        imgCruz = document.createElement("imgCruz");
-        imgCruz.classList.add("Cruz");
-        imgCruz.src = "CRUZ.png";
-
-        divError.style.display = "flex";
-
-        divError.appendChild(imgError);
-        divError.appendChild(Mensaje);
-        divError.appendChild(imgCruz);
-
-        ErrorHolder.appendChild(divError);
-
-        setTimeout(function () {
-          let existingError = document.querySelector(".FrameError");
-          if (existingError) {
-            existingError.remove();
-          }
-        }, 2000);
-      } else {
-        ErrorHolder = document.getElementById("ErrorHolder");
-
-        divAgregado = document.createElement("div");
-        divAgregado.classList.add("FrameAgregado");
-        imgAgregado = document.createElement("img");
-        imgAgregado.classList.add("agregadoImg");
-        imgAgregado.src = "check.png";
-        Mensaje = document.createElement("h3");
-        Mensaje.textContent = "Agregado al carrito";
-
-        divAgregado.style.display = "flex";
-
-        divAgregado.appendChild(imgAgregado);
-        divAgregado.appendChild(Mensaje);
-
-        ErrorHolder.appendChild(divAgregado);
-
-        setTimeout(function () {
-          let existingAgg = document.querySelector(".FrameAgregado");
-          if (existingAgg) {
-            existingAgg.remove();
-          }
-        }, 2000);
-
-        const producto = carrito.find(
-          (item) => item.nombre === nombre && item.talla === Talla,
-        );
-
-        if (producto) {
-          producto.cantidad += 1;
-        } else {
-          carrito.push({
-            nombre: nombre,
-            precio: precio,
-            talla: Talla,
-            cantidad: 1,
-            imagen: espalda,
-          });
-        }
-
-        localStorage.setItem("Carrito", JSON.stringify(carrito));
-
-        console.log(JSON.parse(localStorage.getItem("Carrito")));
-
-        let NuevoCarritoNum = Number(NumCarrito) + 1;
-        document.getElementById("Carrito").src = "carrito_bola.png";
-        localStorage.setItem("NumCarrito", NuevoCarritoNum);
-        document.getElementById("NumeroCarrito").textContent = NuevoCarritoNum;
-
-         
-
-      }
-    }
   });
 };
 

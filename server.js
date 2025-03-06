@@ -4,11 +4,13 @@ const path = require("path");
 require("dotenv").config();
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/producto");
+const unidadesRoutes = require("./routes/unidades");
+
 const app = express();
 
 const mongoose = require("mongoose");
 
-app.use(express.json());  
+app.use(express.json());
 
 mongoose
     .connect(process.env.DB_URI, {
@@ -22,6 +24,7 @@ app.use(express.static(path.join(__dirname, "frontend")));
 
 app.use("/api/users", userRoutes);
 app.use("/api/carrito", productRoutes);
+app.use("/api/unidades", unidadesRoutes);
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "index.html")); // Carga inicio.html primero

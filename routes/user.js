@@ -7,25 +7,27 @@ function id() {
   return crypto.getRandomValues(new Uint32Array(8)).join("");
 }
 
-router.post("/login", async (req, res) =>{
-  console.log("LOGIN LLAMADO")
+router.post("/login", async (req, res) => {
+  console.log("LOGIN LLAMADO");
   const body = req.body;
 
   mail = body.correo;
   pass = body.contraseña;
-  
-  try{
+
+  try {
     const user = await User.findOne({ correo: mail });
-    if(!user) return res.status(500).json({ error: "Usuario no encontrado" });
-    if(!bcrypt.compareSync(pass, user.contraseña)) return res.status(500).json({ error: "correo o contraseña incorrecta" });
+    if (!user) return res.status(500).json({ error: "Usuario no encontrado" });
+    if (!bcrypt.compareSync(pass, user.contraseña))
+      return res.status(500).json({ error: "correo o contraseña incorrecta" });
 
-    res.status(200).json({ message: "Iniciaste Sesión!" });
+    let UserId = user.userid;
 
-    console.log("INICIANDO SESION: " + " " + user.contraseña)
-    
-  }catch(error){
-    return res.status(500).json({error: error.message});
-    console.log("d")
+    res.status(200).json({ message: "Iniciaste Sesión!", userId: UserId });
+
+    console.log("INICIANDO SESION: " + " " + user.contraseña);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+    console.log("d");
   }
 });
 

@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
- 
-
 *{
     margin: 0;
     padding: 0;
@@ -455,7 +453,12 @@ body{
     height: 20%;
 }
 
-
+@media(max-width:450px){
+    .LoginHolder {
+        width: 220px;
+        height: 190px;
+    }
+}
 
 
 @media(max-width:1250px){
